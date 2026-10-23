@@ -9,7 +9,7 @@ class HomePage:
         self.page = page
 
     def open(self):
-        self.page.goto(self.URL)
+        self.page.goto(self.URL, wait_until="domcontentloaded")
 
     def verify_homepage_loaded(self):
         expect(self.page).to_have_title("Automation Exercise")
