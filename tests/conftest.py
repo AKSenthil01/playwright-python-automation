@@ -1,4 +1,5 @@
-﻿import pytest
+﻿
+import pytest
 from config.settings import BASE_URL
 
 

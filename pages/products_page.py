@@ -13,7 +13,10 @@ class ProductsPage:
         self.search_button = page.locator("#submit_search")
 
     def open(self):
-        self.page.goto(self.URL)
+        self.page.goto(
+            self.URL,
+            wait_until="domcontentloaded"
+        )
 
     def verify_products_page_loaded(self):
         expect(self.page).to_have_url(self.URL)
@@ -34,7 +37,7 @@ class ProductsPage:
             ".features_items .product-image-wrapper"
         )
         expect(products.first).to_be_visible()
-        assert products.count() > 0, "No products were returned by search"
+        expect(products).not_to_have_count(0)
 
     def verify_no_search_results(self):
         expect(
@@ -55,9 +58,11 @@ class ProductsPage:
             has=self.page.locator(".productinfo p").get_by_text(
                 product_name, exact=True
             )
-        ).first
+        )
 
+        expect(product_card).to_have_count(1)
         expect(product_card).to_be_visible()
+
         product_card.get_by_text(
             "Add to cart", exact=True
         ).first.click()

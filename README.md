@@ -1,20 +1,23 @@
 ﻿# Playwright Python UI Automation Framework
 
-A Python-based browser UI automation portfolio project built with Playwright and pytest. It demonstrates maintainable test automation using the Page Object Model (POM), positive and negative product search, cart workflows, cross-browser execution, and HTML reporting.
+A Python-based browser UI automation portfolio project built with Playwright and pytest. The framework demonstrates maintainable test automation using the Page Object Model (POM), data-driven positive and negative product search, cart workflows, fixture lifecycle checks, cross-browser configuration, and HTML reporting.
 
 ## Features
 
-- Browser UI automation using Playwright and pytest
+- Browser UI automation using Playwright for Python and pytest
 - Page Object Model with reusable page classes
-- Homepage title and page navigation validation
-- Positive and negative product-search scenarios
-- Add-to-cart and cart-content validation
+- Homepage and product-page validation
+- Data-driven positive product-search scenarios using JSON test data
+- Negative product-search scenarios
+- Add-to-cart and cart-content verification
 - Pytest fixtures and configuration
 - Accessible locators and explicit assertions
-- Screenshot capture on test failure
-- Cross-browser testing with Chromium, Firefox, and WebKit
-- Standalone HTML test reports using pytest-html
-- Configurable base URL using an environment variable
+- Screenshot capture and tracing configured for failure diagnostics
+- Chromium, Firefox, and WebKit execution support
+- Standalone HTML reports using pytest-html
+- Configurable base URL using the `BASE_URL` environment variable
+- GitHub Actions workflow configured for push, pull-request, and manual triggers
+- Separate CI jobs for Chromium, Firefox, and WebKit, with HTML report artifacts
 
 ## Technology Stack
 
@@ -24,18 +27,25 @@ A Python-based browser UI automation portfolio project built with Playwright and
 - pytest-playwright
 - pytest-html
 - Chromium, Firefox, and WebKit
+- GitHub Actions
 
 ## Project Structure
 
 ```text
 playwright-python-automation/
+├── .github/
+│   └── workflows/
+│       └── tests.yml
 ├── config/
 │   └── settings.py
+├── data/
+│   └── product_search_data.json
 ├── pages/
 │   ├── __init__.py
 │   ├── home_page.py
 │   ├── products_page.py
-│   └── cart_page.py
+│   ├── cart_page.py
+│   └── playwright_docs_page.py
 ├── tests/
 │   ├── conftest.py
 │   ├── test_home_page.py
@@ -43,7 +53,8 @@ playwright-python-automation/
 │   ├── test_product_search.py
 │   ├── test_product_search_negative.py
 │   ├── test_web_workflows.py
-│   └── test_add_to_cart.py
+│   ├── test_add_to_cart.py
+│   └── test_fixture_lifecycle.py
 ├── .gitignore
 ├── pytest.ini
 ├── requirements.txt
@@ -54,7 +65,7 @@ playwright-python-automation/
 
 - Python 3.11 or a compatible Python version
 - pip
-- Internet access to install dependencies and access the test websites
+- Internet access to install dependencies and access the public test websites
 
 ## Setup on Windows
 
@@ -85,7 +96,7 @@ Run the complete suite using the default browser configuration:
 python -m pytest
 ```
 
-Run against a specific browser:
+Run against an individual browser:
 
 ```powershell
 python -m pytest --browser chromium
@@ -103,32 +114,43 @@ Generate a standalone HTML report:
 
 ```powershell
 New-Item -ItemType Directory -Force reports
-python -m pytest --browser chromium --browser firefox --browser webkit --html=reports\report.html --self-contained-html
+python -m pytest --browser chromium --html=reports\report.html --self-contained-html
 ```
 
 Open `reports\report.html` in a browser to review the results.
 
 ## Test Coverage
 
-The suite covers homepage validation, product-page validation, positive and negative product search, add-to-cart and cart-content verification, and navigation workflows on the Playwright documentation website.
+The current suite includes:
 
-## Verified Results
+- Homepage title validation
+- Product-page validation
+- Data-driven positive product search
+- Negative search for nonexistent products
+- Add-to-cart response and confirmation checks
+- Cart-content verification
+- Playwright documentation homepage and navigation checks
+- Documentation-page heading checks
+- Fixture lifecycle and page isolation checks
 
-- 30 browser-specific test executions passed across Chromium, Firefox, and WebKit.
-- A subsequent three-browser run also passed all 30 executions and generated a standalone HTML report.
-- Latest recorded three-browser run: 30 passed, 0 failed in 156.88 seconds.
+## GitHub Actions CI
 
-These results describe the local test run; they do not imply that CI/CD has been configured or that the tests have been executed on every operating system.
+The workflow at `.github/workflows/tests.yml` is configured to run on pushes, pull requests, and manual dispatches.
 
-## Configuration
+It uses a browser matrix with separate jobs for Chromium, Firefox, and WebKit. Each job installs Python dependencies and its browser, executes the pytest suite, generates a self-contained HTML report, and uploads the report as a workflow artifact.
 
-The base URL is configured in `config/settings.py`. It can be overridden through the `BASE_URL` environment variable when running tests against a suitable target environment.
+**Current revision status:** The latest local test run passed all 14 tests in 73.53 seconds using Chromium on Windows with Python 3.11.9 and pytest 9.1.1. The current working changes have not yet been pushed, so GitHub Actions results for this revision remain unverified.
+**Historical result:** An earlier project revision passed all three browser jobs in GitHub Actions. That result does not establish that the current unpushed changes pass in CI.
 
-The tests use public websites, so network availability, site changes, and third-party behavior may affect results.
+## Configuration and Reliability Notes
+
+The base URL is configured in `config/settings.py` and can be overridden through the `BASE_URL` environment variable when running against a suitable target environment.
+
+The tests use public websites. Network availability, website changes, bot protection, and third-party behavior may affect test outcomes.
 
 ## Planned Improvements
 
-- GitHub Actions CI/CD integration
-- Automated test execution on pushes and pull requests
-- Uploading HTML reports as CI artifacts
-- Further test-data and failure-diagnostics improvements
+- Push and validate the current revision through GitHub Actions
+- Review cross-browser results for the current revision
+- Continue improving test-data coverage and failure diagnostics
+- Review test stability against external website changes

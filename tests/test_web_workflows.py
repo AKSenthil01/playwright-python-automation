@@ -1,35 +1,39 @@
 
+import re
+
+import pytest
 from playwright.sync_api import Page, expect
+
+from pages.playwright_docs_page import PlaywrightDocsPage
 
 
 def test_homepage_has_expected_title(page: Page):
-    page.goto("https://playwright.dev/")
+    docs_page = PlaywrightDocsPage(page)
 
-    expect(page).to_have_title("Fast and reliable end-to-end testing for modern web apps | Playwright")
+    docs_page.open_homepage()
+    docs_page.verify_homepage_title()
 
 
 def test_homepage_displays_get_started_link(page: Page):
-    page.goto("https://playwright.dev/")
+    docs_page = PlaywrightDocsPage(page)
 
-    expect(
-        page.get_by_role("link", name="Get started")
-    ).to_be_visible()
+    docs_page.open_homepage()
+    docs_page.verify_get_started_link_visible()
 
 
 def test_get_started_navigation(page: Page):
-    page.goto("https://playwright.dev/")
+    docs_page = PlaywrightDocsPage(page)
 
-    page.get_by_role("link", name="Get started").click()
+    docs_page.open_homepage()
+    docs_page.click_get_started()
 
     expect(page).to_have_url(
         "https://playwright.dev/docs/intro"
     )
+    expect(page).to_have_title(re.compile("Playwright"))
     expect(
         page.get_by_role("heading", name="Installation")
     ).to_be_visible()
-
-
-import pytest
 
 
 @pytest.mark.parametrize(
@@ -39,8 +43,13 @@ import pytest
         ("/docs/writing-tests", "Writing tests"),
     ],
 )
-def test_documentation_pages(page: Page, path: str, expected_heading: str):
-    page.goto(f"https://playwright.dev{path}")
+def test_documentation_pages(
+    page: Page,
+    path: str,
+    expected_heading: str,
+):
+    docs_page = PlaywrightDocsPage(page)
+    docs_page.open_documentation_page(path)
 
     expect(
         page.get_by_role("heading", name=expected_heading).first
