@@ -1,15 +1,13 @@
-﻿from playwright.sync_api import Page, expect
+from playwright.sync_api import expect
 from config.settings import BASE_URL
+from pages.base_page import BasePage
 
 
-class HomePage:
+class HomePage(BasePage):
     URL = f"{BASE_URL}/"
 
-    def __init__(self, page: Page):
-        self.page = page
+    def open(self) -> None:
+        self.navigate(self.URL)
 
-    def open(self):
-        self.page.goto(self.URL, wait_until="domcontentloaded")
-
-    def verify_homepage_loaded(self):
+    def verify_homepage_loaded(self) -> None:
         expect(self.page).to_have_title("Automation Exercise")
