@@ -1,4 +1,4 @@
-﻿# Playwright Python Automation Framework
+# Playwright Python Automation Framework
 
 A Python-based UI test automation framework built with Playwright and pytest. The project demonstrates the Page Object Model (POM), data-driven testing, positive and negative test scenarios, fixture isolation, browser automation, and continuous integration with GitHub Actions.
 
@@ -203,7 +203,7 @@ Each job installs Python dependencies and its required Playwright browser, runs 
 
 ### Verified CI Status
 
-**Commit:** `881c601` — `Enhance Playwright test coverage and framework`
+**Commit:** `3b5ef7e` — `Add pytest smoke and regression markers`
 
 The current revision was pushed to the `master` branch. The local test run passed, and all three browser jobs in GitHub Actions were reported as passing.
 
@@ -212,9 +212,9 @@ These results apply to the verified revision and test scope; they do not imply t
 ## Current Revision Status
 
 - **Branch:** `master`
-- **Commit:** `881c601`
+- **Commit:** `3b5ef7e`
 - **Local environment:** Windows, Python 3.11.9, pytest 9.1.1
-- **Latest recorded local test result:** 14 passed in 73.53 seconds using Chromium.
+- **Latest recorded local test result:** 15 passed in 78.79 seconds using Chromium.
 - **GitHub Actions:** Chromium, Firefox, and WebKit jobs passed, as verified after the push.
 - **Version control:** Changes pushed to GitHub; the local branch was confirmed synchronized with `origin/master`.
 
