@@ -1,4 +1,3 @@
-﻿
 import json
 from pathlib import Path
 
@@ -22,7 +21,10 @@ def load_product_search_data():
 @pytest.mark.parametrize(
     "product_name",
     [
-        item["product_name"]
+        pytest.param(
+            item["product_name"],
+            id=item["product_name"].lower().replace(" ", "-"),
+        )
         for item in load_product_search_data()
     ],
 )
