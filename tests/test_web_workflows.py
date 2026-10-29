@@ -1,10 +1,12 @@
-
 import re
 
 import pytest
 from playwright.sync_api import Page, expect
 
 from pages.playwright_docs_page import PlaywrightDocsPage
+
+
+pytestmark = pytest.mark.regression
 
 
 def test_homepage_has_expected_title(page: Page):

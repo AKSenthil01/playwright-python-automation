@@ -1,10 +1,11 @@
-
+import pytest
 from playwright.sync_api import expect
 
 from pages.cart_page import CartPage
 from pages.products_page import ProductsPage
 
 
+@pytest.mark.regression
 def test_add_product_to_cart(page):
     products_page = ProductsPage(page)
     cart_page = CartPage(page)

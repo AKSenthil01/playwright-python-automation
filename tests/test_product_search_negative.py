@@ -1,4 +1,3 @@
-﻿
 import pytest
 
 from pages.products_page import ProductsPage
@@ -11,6 +10,7 @@ from pages.products_page import ProductsPage
         "UnknownItemABC123",
     ],
 )
+@pytest.mark.regression
 def test_search_for_nonexistent_product_returns_no_results(
     page, product_name
 ):
